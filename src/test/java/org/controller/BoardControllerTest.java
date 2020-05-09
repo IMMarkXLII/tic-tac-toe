@@ -15,7 +15,8 @@ public class BoardControllerTest extends TestCase {
     public void testBoardControllerInitializePlayersWhenPlayer1ChoosesASymbol() {
         BoardController boardController = new BoardController();
         try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("initialize-players/initialize-players-1.txt");) {
-            boardController.initializePlayers(inputStream);
+            Scanner scanner = new Scanner(inputStream);
+            boardController.initializePlayers(scanner);
             Board board = boardController.getBoard();
             Player player1 = board.getPlayer1();
             Player player2 = board.getPlayer2();
@@ -32,7 +33,8 @@ public class BoardControllerTest extends TestCase {
     public void testBoardControllerInitializePlayersWhenPlayer1ChoosesDefaultSymbol() {
         BoardController boardController = new BoardController();
         try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("initialize-players/initialize-players-2.txt");) {
-            boardController.initializePlayers(inputStream);
+            Scanner scanner = new Scanner(inputStream);
+            boardController.initializePlayers(scanner);
             Board board = boardController.getBoard();
             Player player1 = board.getPlayer1();
             Player player2 = board.getPlayer2();
@@ -49,7 +51,8 @@ public class BoardControllerTest extends TestCase {
     public void testBoardControllerInitializePlayersFails() {
         BoardController boardController = new BoardController();
         try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("initialize-players/initialize-players-3-incorrect-input.txt");) {
-            boardController.initializePlayers(inputStream);
+            Scanner scanner = new Scanner(inputStream);
+            boardController.initializePlayers(scanner);
         } catch (IllegalArgumentException | IOException e) {
             e.printStackTrace();
         }

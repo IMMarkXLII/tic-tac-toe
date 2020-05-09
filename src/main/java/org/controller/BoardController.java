@@ -5,7 +5,6 @@ import org.models.Player;
 import org.models.Symbol;
 
 import java.io.InputStream;
-import java.util.Arrays;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -32,13 +31,7 @@ public class BoardController {
         return board;
     }
 
-    public void start(InputStream inputStream) {
-        initializePlayers(inputStream);
-        startGame(inputStream);
-    }
-
-    public void initializePlayers(InputStream inputStream) throws IllegalArgumentException {
-        Scanner scanner = new Scanner(inputStream);
+    public void initializePlayers(Scanner scanner) throws IllegalArgumentException {
 
         System.out.println("Player 1, please enter your name:");
         String player1Name = scanner.nextLine();
@@ -68,11 +61,10 @@ public class BoardController {
         board.setPlayer2(new Player(player2Name, player2Symbol));
     }
 
-    public void startGame(InputStream inputStream) {
+    public void startGame(Scanner scanner) {
         int moveCount = 0;
         Player firstPlayer = board.getPlayer1();
         Player secondPlayer = board.getPlayer2();
-        Scanner scanner = new Scanner(inputStream);
         while (moveCount < 9) {
             System.out.println(board.toString());
             updateGrid(firstPlayer, scanner);
