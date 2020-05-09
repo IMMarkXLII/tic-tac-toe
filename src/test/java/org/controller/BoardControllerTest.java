@@ -63,12 +63,12 @@ public class BoardControllerTest extends TestCase {
             Scanner scanner = new Scanner(inputStream);
             boardController.updateGrid(player, scanner);
             assertEquals(Integer.valueOf(1), boardController.getBoard().getGrid()[0][0]);
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
+    @Test
     public void testBoardControllerUpgradeGridWhenUserChoosesIncorrectOption() {
         BoardController boardController = new BoardController();
         try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("update-grid/upgrade-grid-2.txt");) {
@@ -76,8 +76,53 @@ public class BoardControllerTest extends TestCase {
             Scanner scanner = new Scanner(inputStream);
             boardController.updateGrid(player, scanner);
             assertEquals(Integer.valueOf(1), boardController.getBoard().getGrid()[0][1]);
-        } catch (IllegalArgumentException | IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    @Test
+    public void testBoardControllerIsGameOnWhenAPlayerWins() {
+        BoardController boardController = new BoardController();
+        Player player = new Player("Tom Haverford", Symbol.X);
+        boardController.getBoard().getGrid()[0][0] = 1;
+        boardController.getBoard().getGrid()[0][1] = 1;
+        boardController.getBoard().getGrid()[0][2] = 1;
+        boolean isGameOn = boardController.isGameOn(player);
+        assertFalse(isGameOn);
+    }
+
+    @Test
+    public void testBoardControllerIsGameOnWhenCellsAreEmpty() {
+        BoardController boardController = new BoardController();
+        Player player = new Player("Tom Haverford", Symbol.X);
+        boardController.getBoard().getGrid()[0][0] = 1;
+        boardController.getBoard().getGrid()[0][2] = 1;
+        boardController.getBoard().getGrid()[1][1] = 2;
+        boolean isGameOn = boardController.isGameOn(player);
+        assertTrue(isGameOn);
+    }
+
+    @Test
+    public void testBoardControllerIsGameOnWhenGameIsTied() {
+        BoardController boardController = new BoardController();
+        Player player = new Player("Tom Haverford", Symbol.X);
+        Player player2 = new Player("Mark Brendanowitz", Symbol.O);
+        boardController.getBoard().getGrid()[0][0] = 1;
+        boardController.getBoard().getGrid()[0][1] = 2;
+        boardController.getBoard().getGrid()[0][2] = 1;
+
+        boardController.getBoard().getGrid()[1][0] = 2;
+        boardController.getBoard().getGrid()[1][1] = 2;
+        boardController.getBoard().getGrid()[1][2] = 1;
+
+        boardController.getBoard().getGrid()[2][0] = 2;
+        boardController.getBoard().getGrid()[2][1] = 1;
+        boardController.getBoard().getGrid()[2][2] = 2;
+        // The isGameOn should return false for both players to be considered a valid test
+        // in the actual in game scenario, the game will test only for the player that has played the previous turn
+        boolean isGameOn1 = boardController.isGameOn(player);
+        boolean isGameOn2 = boardController.isGameOn(player2);
+        assertFalse(isGameOn1 && isGameOn2);
     }
 }

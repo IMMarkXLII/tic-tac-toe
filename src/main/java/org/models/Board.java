@@ -23,6 +23,18 @@ public class Board {
         this.grid[rowIndex][columnIndex] = value;
     }
 
+    public boolean validateCellContent(int cellNumber, int value) {
+        int rowIndex = (cellNumber - 1) / 3;
+        int columnIndex = (cellNumber - 1) % 3;
+        return this.grid[rowIndex][columnIndex] == value;
+    }
+
+    public boolean isAtLeastOneCellVacant() {
+        return Arrays.asList(grid[0]).contains(0) ||
+                Arrays.asList(grid[1]).contains(0) ||
+                Arrays.asList(grid[2]).contains(0);
+    }
+
     public Player getPlayer1() {
         return player1;
     }

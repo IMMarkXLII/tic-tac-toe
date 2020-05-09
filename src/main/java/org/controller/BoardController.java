@@ -10,6 +10,18 @@ import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class BoardController {
+
+    private static int[][] winningCombinations = {
+            new int[]{1, 2, 3},
+            new int[]{4, 5, 6},
+            new int[]{7, 8, 9},
+            new int[]{1, 4, 7},
+            new int[]{2, 5, 8},
+            new int[]{3, 6, 9},
+            new int[]{1, 5, 9},
+            new int[]{3, 5, 7}
+    };
+
     private Board board;
 
     public BoardController() {
@@ -99,29 +111,17 @@ public class BoardController {
     }
 
     public boolean isGameOn(Player player) {
-        int[][] winningCombinations = new int[][]{
-                new int[]{1, 2, 3},
-                new int[]{4, 5, 6},
-                new int[]{7, 8, 9},
-                new int[]{1, 4, 7},
-                new int[]{2, 5, 8},
-                new int[]{3, 6, 9},
-                new int[]{1, 5, 9},
-                new int[]{3, 5, 7}
-        };
         int symbolCode = player.getSymbol().getSymbolCode();
-        Integer[][] grid = board.getGrid();
         for (int i[] : winningCombinations) {
-            if (grid[(i[0] - 1) / 3][(i[0] - 1) % 3] == symbolCode &&
-                    grid[(i[1] - 1) / 3][(i[1] - 1) % 3] == symbolCode &&
-                    grid[(i[2] - 1) / 3][(i[2] - 1) % 3] == symbolCode) {
+            if (board.validateCellContent(i[0], symbolCode) &&
+                    board.validateCellContent(i[1], symbolCode) &&
+                    board.validateCellContent(i[2], symbolCode)) {
                 System.out.println(player.getName() + " has won!");
                 return false;
             }
         }
-        if (Arrays.asList(grid[0]).contains(0) ||
-                Arrays.asList(grid[1]).contains(0) ||
-                Arrays.asList(grid[2]).contains(0))
+
+        if (board.isAtLeastOneCellVacant())
             return true;
         System.out.println("The game is tied!");
         return false;
