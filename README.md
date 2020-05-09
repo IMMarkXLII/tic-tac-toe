@@ -11,6 +11,9 @@
 ``` make test or make t ``` 
 * run tests
 
+``` make compile ``` 
+* compile the project
+
 ### Alternatively on your IDE run the TicTacToe java file.
 
 
