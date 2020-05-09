@@ -4,22 +4,24 @@ import org.models.Board;
 import org.models.Player;
 import org.models.Symbol;
 
+import java.io.InputStream;
 import java.util.Arrays;
 import java.util.Scanner;
 
 public class BoardController {
     private Board board;
+
     public BoardController() {
         board = new Board();
     }
 
-    public void start() {
-        initializePlayers();
-        startGame();
+    public void start(InputStream inputStream) {
+        initializePlayers(inputStream);
+        startGame(inputStream);
     }
 
-    public void initializePlayers() {
-        Scanner scanner = new Scanner(System.in);
+    public void initializePlayers(InputStream inputStream) {
+        Scanner scanner = new Scanner(inputStream);
 
         System.out.println("Player 1, please enter your name:");
         String player1Name = scanner.nextLine();
@@ -30,7 +32,7 @@ public class BoardController {
         switch (player1SymbolString) {
             case "O":
                 System.out.println(player1Name + ", Your symbol is 'O'");
-                board.setPlayer1( new Player(player1Name, Symbol.O));
+                board.setPlayer1(new Player(player1Name, Symbol.O));
                 player2Symbol = Symbol.X;
                 break;
             case "X":
@@ -46,13 +48,13 @@ public class BoardController {
         board.setPlayer2(new Player(player2Name, player2Symbol));
     }
 
-    public void startGame() {
+    public void startGame(InputStream inputStream) {
         int moveCount = 0;
         Player firstPlayer = board.getPlayer1();
         Player secondPlayer = board.getPlayer2();
         while (moveCount < 9) {
             System.out.println(board.toString());
-            updateBoard(firstPlayer);
+            updateBoard(firstPlayer, inputStream);
             if (!gameOn(firstPlayer))
                 break;
             Player tmp = firstPlayer;
@@ -65,15 +67,15 @@ public class BoardController {
         System.out.println(board.toString());
     }
 
-    private void updateBoard(Player nextPlayer) {
+    private void updateBoard(Player nextPlayer, InputStream inputStream) {
         System.out.println(nextPlayer + ", please choose as empty cell for your next move using the numbers 1 to 9");
-        Scanner scanner = new Scanner(System.in);
+        Scanner scanner = new Scanner(inputStream);
         int nextTile = scanner.nextInt();
         int nextIndexI = (nextTile - 1) / 3;
         int nextIndexJ = (nextTile - 1) % 3;
         if (board.getGrid()[nextIndexI][nextIndexJ] != 0) {
             System.out.println("Invalid move, cell is already occupied. Please re-enter");
-            updateBoard(nextPlayer);
+            updateBoard(nextPlayer, inputStream);
         } else
             board.getGrid()[nextIndexI][nextIndexJ] = nextPlayer.getSymbol().getSymbolCode();
     }

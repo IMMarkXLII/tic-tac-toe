@@ -25,8 +25,6 @@ public class Board {
             Arrays.fill(row, new Integer(0));
     }
 
-
-
     @Override
     public String toString() {
         return "=====================================================\n" +
