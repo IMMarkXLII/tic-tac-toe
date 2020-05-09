@@ -1,14 +1,17 @@
 package org.models;
 
+import java.util.Arrays;
 import java.util.Scanner;
 
 public class Board {
-    private int[][] board;
+    private Integer[][] board;
     private Player player1;
     private Player player2;
 
     public Board() {
-        board = new int[3][3];
+        board = new Integer[3][3];
+        for (Integer[] row : board)
+            Arrays.fill(row, new Integer(0));
     }
 
     public void initializePlayers() {
@@ -43,15 +46,17 @@ public class Board {
         int moveCount = 0;
         Player firstPlayer = this.player1;
         Player secondPlayer = this.player2;
-        while (moveCount < 9 && gameOn()) {
+        while (moveCount < 9) {
             System.out.println(toString());
             updateBoard(firstPlayer);
-
+            if (!gameOn(firstPlayer))
+                break;
             Player tmp = firstPlayer;
             firstPlayer = secondPlayer;
             secondPlayer = tmp;
             moveCount++;
         }
+
         System.out.println("The final board state is:");
         System.out.println(toString());
     }
@@ -69,8 +74,32 @@ public class Board {
             board[nextIndexI][nextIndexJ] = nextPlayer.getSymbol().getSymbolCode();
     }
 
-    private boolean gameOn() {
-        return true;
+    private boolean gameOn(Player player) {
+        int[][] winningCombinations = new int[][]{
+                new int[]{1, 2, 3},
+                new int[]{4, 5, 6},
+                new int[]{7, 8, 9},
+                new int[]{1, 4, 7},
+                new int[]{2, 5, 8},
+                new int[]{3, 6, 9},
+                new int[]{1, 5, 9},
+                new int[]{3, 5, 7}
+        };
+        int symbolCode = player.getSymbol().getSymbolCode();
+        for (int i[] : winningCombinations) {
+            if (board[(i[0] - 1) / 3][(i[0] - 1) % 3] == symbolCode &&
+                    board[(i[1] - 1) / 3][(i[1] - 1) % 3] == symbolCode &&
+                    board[(i[2] - 1) / 3][(i[2] - 1) % 3] == symbolCode) {
+                System.out.println(player.getName() + " has won!");
+                return false;
+            }
+        }
+        if (Arrays.asList(board[0]).contains(0) ||
+                Arrays.asList(board[1]).contains(0) ||
+                Arrays.asList(board[2]).contains(0))
+            return true;
+        System.out.println("The game is tied!");
+        return false;
     }
 
     @Override
@@ -84,7 +113,7 @@ public class Board {
 
     private String printBoard() {
         StringBuilder boardStringBuilder = new StringBuilder("");
-        for (int i[] : board) {
+        for (Integer i[] : board) {
             boardStringBuilder.append("|");
             for (int j : i) {
                 boardStringBuilder.append(" " + Symbol.getSymbol(j) + " |");

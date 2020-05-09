@@ -10,6 +10,5 @@ public class TicTacToe
         Board board = new Board();
         board.initializePlayers();
         board.startGame();
-//        System.out.println(board);
     }
 }
