@@ -3,6 +3,7 @@ package org.controller;
 import junit.framework.TestCase;
 import org.junit.Test;
 import org.models.Board;
+import org.models.CustomPlayer;
 import org.models.Player;
 import org.models.Symbol;
 
@@ -62,7 +63,7 @@ public class BoardControllerTest extends TestCase {
     public void testBoardControllerUpgradeGrid() {
         BoardController boardController = new BoardController();
         try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("update-grid/upgrade-grid-1.txt");) {
-            Player player = new Player("Tom Haverford", Symbol.X);
+            Player player = new CustomPlayer("Tom Haverford", Symbol.X);
             Scanner scanner = new Scanner(inputStream);
             boardController.updateGrid(player, scanner);
             assertEquals(Integer.valueOf(1), boardController.getBoard().getGrid()[0][0]);
@@ -75,7 +76,7 @@ public class BoardControllerTest extends TestCase {
     public void testBoardControllerUpgradeGridWhenUserChoosesIncorrectOption() {
         BoardController boardController = new BoardController();
         try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("update-grid/upgrade-grid-2.txt");) {
-            Player player = new Player("Tom Haverford", Symbol.X);
+            Player player = new CustomPlayer("Tom Haverford", Symbol.X);
             Scanner scanner = new Scanner(inputStream);
             boardController.updateGrid(player, scanner);
             assertEquals(Integer.valueOf(1), boardController.getBoard().getGrid()[0][1]);
@@ -87,7 +88,7 @@ public class BoardControllerTest extends TestCase {
     @Test
     public void testBoardControllerIsGameOnWhenAPlayerWins() {
         BoardController boardController = new BoardController();
-        Player player = new Player("Tom Haverford", Symbol.X);
+        Player player = new CustomPlayer("Tom Haverford", Symbol.X);
         boardController.getBoard().getGrid()[0][0] = 1;
         boardController.getBoard().getGrid()[0][1] = 1;
         boardController.getBoard().getGrid()[0][2] = 1;
@@ -98,7 +99,7 @@ public class BoardControllerTest extends TestCase {
     @Test
     public void testBoardControllerIsGameOnWhenCellsAreEmpty() {
         BoardController boardController = new BoardController();
-        Player player = new Player("Tom Haverford", Symbol.X);
+        Player player = new CustomPlayer("Tom Haverford", Symbol.X);
         boardController.getBoard().getGrid()[0][0] = 1;
         boardController.getBoard().getGrid()[0][2] = 1;
         boardController.getBoard().getGrid()[1][1] = 2;
@@ -109,8 +110,8 @@ public class BoardControllerTest extends TestCase {
     @Test
     public void testBoardControllerIsGameOnWhenGameIsTied() {
         BoardController boardController = new BoardController();
-        Player player = new Player("Tom Haverford", Symbol.X);
-        Player player2 = new Player("Mark Brendanowitz", Symbol.O);
+        Player player = new CustomPlayer("Tom Haverford", Symbol.X);
+        Player player2 = new CustomPlayer("Mark Brendanowitz", Symbol.O);
         boardController.getBoard().getGrid()[0][0] = 1;
         boardController.getBoard().getGrid()[0][1] = 2;
         boardController.getBoard().getGrid()[0][2] = 1;

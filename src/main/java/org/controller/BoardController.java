@@ -1,6 +1,7 @@
 package org.controller;
 
 import org.models.Board;
+import org.models.CustomPlayer;
 import org.models.Player;
 import org.models.Symbol;
 
@@ -41,13 +42,13 @@ public class BoardController {
         switch (player1SymbolString) {
             case "O":
                 System.out.println(player1Name + ", Your symbol is 'O'");
-                board.setPlayer1(new Player(player1Name, Symbol.O));
+                board.setPlayer1(new CustomPlayer(player1Name, Symbol.O));
                 player2Symbol = Symbol.X;
                 break;
             case "X":
             case "":
                 System.out.println(player1Name + ", Your symbol is 'X'");
-                board.setPlayer1(new Player(player1Name, Symbol.X));
+                board.setPlayer1(new CustomPlayer(player1Name, Symbol.X));
                 player2Symbol = Symbol.O;
                 break;
             default:
@@ -57,7 +58,7 @@ public class BoardController {
         System.out.println("Player 2, please enter your name:");
         String player2Name = scanner.nextLine();
         System.out.println(player2Name + ", Your symbol is " + player2Symbol.toString());
-        board.setPlayer2(new Player(player2Name, player2Symbol));
+        board.setPlayer2(new CustomPlayer(player2Name, player2Symbol));
     }
 
     public void startGame(Scanner scanner) {

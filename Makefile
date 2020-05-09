@@ -26,7 +26,12 @@ run: build
 t: test
 .PHONY: test
 test:
-	@ mvn test
+	@ mvn clean test
+
+## compile: compile the project
+.PHONY: compile
+compile:
+	@ mvn clean compile
 
 
 .PHONY: help
