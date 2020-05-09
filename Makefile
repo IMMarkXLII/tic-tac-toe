@@ -13,7 +13,7 @@ SHELL = bash
 ## build, b: compile all sources and package a jar with dependencies
 b: build
 .PHONY: build
-build: test
+build:
 	@ mvn clean package
 
 ## run, r: run the program

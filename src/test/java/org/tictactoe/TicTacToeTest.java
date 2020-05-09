@@ -20,7 +20,7 @@ public class TicTacToeTest extends TestCase {
                     {2, 1, 1},
             };
 
-            assertTrue(Arrays.deepEquals(expectedGrid, ticTacToe.boardController.getBoard().getGrid()));
+            assertTrue(Arrays.deepEquals(expectedGrid, ticTacToe.getBoardController().getBoard().getGrid()));
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -38,7 +38,7 @@ public class TicTacToeTest extends TestCase {
                     {2, 1, 2},
             };
 
-            assertTrue(Arrays.deepEquals(expectedGrid, ticTacToe.boardController.getBoard().getGrid()));
+            assertTrue(Arrays.deepEquals(expectedGrid, ticTacToe.getBoardController().getBoard().getGrid()));
         } catch (IOException e) {
             e.printStackTrace();
         }

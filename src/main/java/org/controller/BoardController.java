@@ -4,7 +4,6 @@ import org.models.Board;
 import org.models.Player;
 import org.models.Symbol;
 
-import java.io.InputStream;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -104,10 +103,10 @@ public class BoardController {
 
     public boolean isGameOn(Player player) {
         int symbolCode = player.getSymbol().getSymbolCode();
-        for (int i[] : winningCombinations) {
-            if (board.validateCellContent(i[0], symbolCode) &&
-                    board.validateCellContent(i[1], symbolCode) &&
-                    board.validateCellContent(i[2], symbolCode)) {
+        for (int[] i : winningCombinations) {
+            if (board.validateCellContent(i[0], symbolCode)
+                    && board.validateCellContent(i[1], symbolCode)
+                    && board.validateCellContent(i[2], symbolCode)) {
                 System.out.println(player.getName() + " has won!");
                 return false;
             }

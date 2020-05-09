@@ -30,9 +30,9 @@ public class Board {
     }
 
     public boolean isAtLeastOneCellVacant() {
-        return Arrays.asList(grid[0]).contains(0) ||
-                Arrays.asList(grid[1]).contains(0) ||
-                Arrays.asList(grid[2]).contains(0);
+        return Arrays.asList(grid[0]).contains(0)
+                || Arrays.asList(grid[1]).contains(0)
+                || Arrays.asList(grid[2]).contains(0);
     }
 
     public Player getPlayer1() {
@@ -51,11 +51,11 @@ public class Board {
 
     @Override
     public String toString() {
-        return "=====================================================\n" +
-                player1 + " and " + player2 + "\n" +
-                "=====================================================\n" +
-                "Board is:\n" + printBoard() +
-                "\n=====================================================";
+        return "=====================================================\n"
+                + player1 + " and " + player2 + "\n"
+                + "=====================================================\n"
+                + "Board is:\n" + printBoard()
+                + "\n=====================================================";
     }
 
     private String printBoard() {
