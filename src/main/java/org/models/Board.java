@@ -11,6 +11,18 @@ public class Board {
         return grid;
     }
 
+    public boolean isCellOccupied(int cellNumber) {
+        int rowIndex = (cellNumber - 1) / 3;
+        int columnIndex = (cellNumber - 1) % 3;
+        return this.grid[rowIndex][columnIndex] != 0;
+    }
+
+    public void updateGrid(int cellNumber, int value) {
+        int rowIndex = (cellNumber - 1) / 3;
+        int columnIndex = (cellNumber - 1) % 3;
+        this.grid[rowIndex][columnIndex] = value;
+    }
+
     public Player getPlayer1() {
         return player1;
     }

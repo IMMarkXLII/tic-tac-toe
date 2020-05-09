@@ -5,8 +5,8 @@ import org.models.Player;
 import org.models.Symbol;
 
 import java.io.InputStream;
-import java.nio.charset.MalformedInputException;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class BoardController {
@@ -60,10 +60,11 @@ public class BoardController {
         int moveCount = 0;
         Player firstPlayer = board.getPlayer1();
         Player secondPlayer = board.getPlayer2();
+        Scanner scanner = new Scanner(inputStream);
         while (moveCount < 9) {
             System.out.println(board.toString());
-            updateBoard(firstPlayer, inputStream);
-            if (!gameOn(firstPlayer))
+            updateGrid(firstPlayer, scanner);
+            if (!isGameOn(firstPlayer))
                 break;
             Player tmp = firstPlayer;
             firstPlayer = secondPlayer;
@@ -75,20 +76,29 @@ public class BoardController {
         System.out.println(board.toString());
     }
 
-    private void updateBoard(Player nextPlayer, InputStream inputStream) {
-        System.out.println(nextPlayer + ", please choose as empty cell for your next move using the numbers 1 to 9");
-        Scanner scanner = new Scanner(inputStream);
-        int nextTile = scanner.nextInt();
-        int nextIndexI = (nextTile - 1) / 3;
-        int nextIndexJ = (nextTile - 1) % 3;
-        if (board.getGrid()[nextIndexI][nextIndexJ] != 0) {
+    public void updateGrid(Player currentPlayer, Scanner scanner) {
+        System.out.println(currentPlayer + ", please choose as empty cell for your next move using the numbers 1 to 9");
+        int nextCell = -1;
+        try {
+            String nextLine = scanner.nextLine();
+            nextCell = Integer.parseInt(nextLine);
+            if (nextCell < 1 || nextCell > 9)
+                throw new InputMismatchException();
+        } catch (InputMismatchException | NumberFormatException e) {
+            System.out.println("Invalid move, value is invalid(Invalid number or outside of range 1-9). Please re-enter");
+            updateGrid(currentPlayer, scanner);
+            return;
+        }
+
+        if (board.isCellOccupied(nextCell)) {
             System.out.println("Invalid move, cell is already occupied. Please re-enter");
-            updateBoard(nextPlayer, inputStream);
+            updateGrid(currentPlayer, scanner);
+            return;
         } else
-            board.getGrid()[nextIndexI][nextIndexJ] = nextPlayer.getSymbol().getSymbolCode();
+            board.updateGrid(nextCell, currentPlayer.getSymbol().getSymbolCode());
     }
 
-    private boolean gameOn(Player player) {
+    public boolean isGameOn(Player player) {
         int[][] winningCombinations = new int[][]{
                 new int[]{1, 2, 3},
                 new int[]{4, 5, 6},
