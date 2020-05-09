@@ -13,14 +13,20 @@ SHELL = bash
 ## build, b: compile all sources and package a jar with dependencies
 b: build
 .PHONY: build
-build:
+build: test
 	@ mvn clean package
 
 ## run, r: run the program
 r: run
 .PHONY: run
-run: b
+run: build
 	@ java -jar target/tic-tac-toe-*.jar
+
+## test, t: run tests
+t: test
+.PHONY: test
+test:
+	@ mvn test
 
 
 .PHONY: help

@@ -5,6 +5,7 @@ import org.models.Player;
 import org.models.Symbol;
 
 import java.io.InputStream;
+import java.nio.charset.MalformedInputException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -15,12 +16,16 @@ public class BoardController {
         board = new Board();
     }
 
+    public Board getBoard() {
+        return board;
+    }
+
     public void start(InputStream inputStream) {
         initializePlayers(inputStream);
         startGame(inputStream);
     }
 
-    public void initializePlayers(InputStream inputStream) {
+    public void initializePlayers(InputStream inputStream) throws IllegalArgumentException {
         Scanner scanner = new Scanner(inputStream);
 
         System.out.println("Player 1, please enter your name:");
@@ -36,10 +41,13 @@ public class BoardController {
                 player2Symbol = Symbol.X;
                 break;
             case "X":
-            default:
+            case "":
                 System.out.println(player1Name + ", Your symbol is 'X'");
-                board.setPlayer2(new Player(player1Name, Symbol.X));
+                board.setPlayer1(new Player(player1Name, Symbol.X));
                 player2Symbol = Symbol.O;
+                break;
+            default:
+                throw new IllegalArgumentException();
         }
 
         System.out.println("Player 2, please enter your name:");

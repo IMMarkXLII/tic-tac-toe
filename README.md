@@ -3,12 +3,15 @@
 ## Commands to build and run the app
 
 ``` make build or make b``` 
-* clean target directory and package the project into a jar with dependencies                 
+* clean target directory and package the project into a jar with dependencies, adn run tests                 
 
 ``` make run or make r ``` 
-* build and run the app
+* build, test and run the app
 
-### Alternative on your IDE run the TicTacToe java file.
+``` make test or make t ``` 
+* run tests
+
+### Alternatively on your IDE run the TicTacToe java file.
 
 
 
