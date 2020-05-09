@@ -1,14 +1,11 @@
 package org.tictactoe;
 
-import org.models.Board;
+import org.controller.BoardController;
 
-public class TicTacToe
-{
-    public static void main( String[] args )
-    {
+public class TicTacToe {
+    public static void main(String[] args) {
         System.out.println("Welcome to a game of tic-tac-toe");
-        Board board = new Board();
-        board.initializePlayers();
-        board.startGame();
+        BoardController boardController = new BoardController();
+        boardController.start();
     }
 }
