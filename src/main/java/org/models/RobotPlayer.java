@@ -44,28 +44,30 @@ public class RobotPlayer implements Player {
         for (Integer vacantCell : board.getVacantCells()) {
             Board newBoard = new Board(board.getGridCopy());
             newBoard.updateGrid(vacantCell, symbol.getSymbolCode());
-
             if (newBoard.isPlayerWinning(symbol.getSymbolCode())) {
                 if (bestMoveScore < 1 && (level <= bestMoveLevel || bestMoveLevel == -1)) {
                     bestMove = vacantCell; bestMoveScore = 1; bestMoveLevel = level;
                 }
             } else if (newBoard.isAtLeastOneCellVacant()) {
-
-                for (Integer vacant : newBoard.getVacantCells()) {
-                    Board player2Board = new Board(newBoard.getGridCopy());
-                    player2Board.updateGrid(vacant, otherPlayerSymbol);
-                    if (player2Board.isPlayerWinning(otherPlayerSymbol)) {
-                        if (bestMoveScore < 1 && (level <= bestMoveLevel || bestMoveLevel == -1)) {
-                            bestMove = vacant; bestMoveScore = 2; bestMoveLevel = level;
-                        }
-                    } else if (player2Board.isAtLeastOneCellVacant()) {
-                        calculateOptimalMove(player2Board, otherPlayerSymbol, level + 1);
-                    } else {
-                        if (bestMoveScore < 1 && (level <= bestMoveLevel || bestMoveLevel == -1)) {
-                            bestMove = vacantCell; bestMoveScore = 0; bestMoveLevel = level;
-                        }
-                    }
+                checkOppositePlayersMoves(otherPlayerSymbol, level, vacantCell, newBoard);
+            } else {
+                if (bestMoveScore < 1 && (level <= bestMoveLevel || bestMoveLevel == -1)) {
+                    bestMove = vacantCell; bestMoveScore = 0; bestMoveLevel = level;
                 }
+            }
+        }
+    }
+
+    private void checkOppositePlayersMoves(int otherPlayerSymbol, int level, Integer vacantCell, Board newBoard) {
+        for (Integer vacant : newBoard.getVacantCells()) {
+            Board player2Board = new Board(newBoard.getGridCopy());
+            player2Board.updateGrid(vacant, otherPlayerSymbol);
+            if (player2Board.isPlayerWinning(otherPlayerSymbol)) {
+                if (bestMoveScore < 1 && (level <= bestMoveLevel || bestMoveLevel == -1)) {
+                    bestMove = vacant; bestMoveScore = 2; bestMoveLevel = level;
+                }
+            } else if (player2Board.isAtLeastOneCellVacant()) {
+                calculateOptimalMove(player2Board, otherPlayerSymbol, level + 1);
             } else {
                 if (bestMoveScore < 1 && (level <= bestMoveLevel || bestMoveLevel == -1)) {
                     bestMove = vacantCell; bestMoveScore = 0; bestMoveLevel = level;
