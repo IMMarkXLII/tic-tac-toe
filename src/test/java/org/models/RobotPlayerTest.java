@@ -34,4 +34,52 @@ public class RobotPlayerTest extends TestCase {
         }
     }
 
+    @Test
+    public void testRobotPlayerCalculateOptimalMove() {
+        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
+
+        Board board = new Board();
+        board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 2;
+        board.getGrid()[1][0] = 0; board.getGrid()[1][1] = 0; board.getGrid()[1][2] = 0;
+        board.getGrid()[2][0] = 1; board.getGrid()[2][1] = 1; board.getGrid()[2][2] = 2;
+        player.calculateOptimalMove(board, 1, 1);
+        assertEquals(6, player.bestMove);
+    }
+
+    @Test
+    public void testRobotPlayerCalculateOptimalMove2() {
+        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
+
+        Board board = new Board();
+        board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 1;
+        board.getGrid()[1][0] = 0; board.getGrid()[1][1] = 0; board.getGrid()[1][2] = 0;
+        board.getGrid()[2][0] = 1; board.getGrid()[2][1] = 1; board.getGrid()[2][2] = 2;
+        player.calculateOptimalMove(board, 1, 1);
+        assertEquals(5, player.bestMove);
+    }
+
+    @Test
+    public void testRobotPlayerCalculateOptimalMove3() {
+        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
+
+        Board board = new Board();
+        board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 2;
+        board.getGrid()[1][0] = 1; board.getGrid()[1][1] = 0; board.getGrid()[1][2] = 1;
+        board.getGrid()[2][0] = 2; board.getGrid()[2][1] = 1; board.getGrid()[2][2] = 2;
+        player.calculateOptimalMove(board, 1, 1);
+        assertEquals(5, player.bestMove);
+    }
+
+    @Test
+    public void testRobotPlayerCalculateOptimalMove4() {
+        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
+
+        Board board = new Board();
+        board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 2;
+        board.getGrid()[1][0] = 0; board.getGrid()[1][1] = 1; board.getGrid()[1][2] = 0;
+        board.getGrid()[2][0] = 2; board.getGrid()[2][1] = 1; board.getGrid()[2][2] = 2;
+        player.calculateOptimalMove(board, 1, 1);
+        assertEquals(6, player.bestMove);
+    }
+
 }

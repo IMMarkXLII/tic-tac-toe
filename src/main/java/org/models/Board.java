@@ -2,7 +2,9 @@ package org.models;
 
 import org.controller.BoardController;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
@@ -13,6 +15,10 @@ public class Board {
         grid = new Integer[3][3];
         for (Integer[] row : grid)
             Arrays.fill(row, new Integer(0));
+    }
+
+    public Board(Integer[][] grid) {
+        this.grid = grid;
     }
 
     public boolean isCellOccupied(int cellNumber) {
@@ -51,6 +57,14 @@ public class Board {
         return grid;
     }
 
+    public Integer[][] getGridCopy() {
+        return new Integer[][]{
+                Arrays.copyOf(grid[0], 3),
+                Arrays.copyOf(grid[1], 3),
+                Arrays.copyOf(grid[2], 3)};
+    }
+
+
     public String printBoard(Player player1, Player player2) {
         StringBuilder boardStringBuilder = new StringBuilder("");
         for (Integer i[] : grid) {
@@ -68,17 +82,23 @@ public class Board {
     }
 
     public boolean isGameOn(Player player) {
-        int symbolCode = player.getSymbol().getSymbolCode();
-        for (int[] combo : BoardController.winningCombinations) {
-            if (isAWinningCombo(symbolCode, combo)) {
-                System.out.println(player.getName() + " has won!");
-                return false;
-            }
+        if (isPlayerWinning(player.getSymbol().getSymbolCode())) {
+            System.out.println(player.getName() + " has won!");
+            return false;
         }
 
         if (isAtLeastOneCellVacant())
             return true;
         System.out.println("The game is tied!");
+        return false;
+    }
+
+    public boolean isPlayerWinning(int playerCode) {
+        for (int[] combo : BoardController.winningCombinations) {
+            if (isAWinningCombo(playerCode, combo)) {
+                return true;
+            }
+        }
         return false;
     }
 
