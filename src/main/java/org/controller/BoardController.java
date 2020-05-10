@@ -5,7 +5,6 @@ import org.models.CustomPlayer;
 import org.models.Player;
 import org.models.Symbol;
 
-import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public class BoardController {
@@ -67,7 +66,7 @@ public class BoardController {
         Player secondPlayer = board.getPlayer2();
         while (moveCount < 9) {
             System.out.println(board.toString());
-            updateGrid(firstPlayer, scanner);
+            firstPlayer.updateGrid(board, scanner);
             if (!isGameOn(firstPlayer))
                 break;
             Player tmp = firstPlayer;
@@ -78,28 +77,6 @@ public class BoardController {
 
         System.out.println("The final board state is:");
         System.out.println(board.toString());
-    }
-
-    public void updateGrid(Player currentPlayer, Scanner scanner) {
-        System.out.println(currentPlayer + ", please choose as empty cell for your next move using the numbers 1 to 9");
-        int nextCell = -1;
-        try {
-            String nextLine = scanner.nextLine();
-            nextCell = Integer.parseInt(nextLine);
-            if (nextCell < 1 || nextCell > 9)
-                throw new InputMismatchException();
-        } catch (InputMismatchException | NumberFormatException e) {
-            System.out.println("Invalid move, value is invalid(Invalid number or outside of range 1-9). Please re-enter");
-            updateGrid(currentPlayer, scanner);
-            return;
-        }
-
-        if (board.isCellOccupied(nextCell)) {
-            System.out.println("Invalid move, cell is already occupied. Please re-enter");
-            updateGrid(currentPlayer, scanner);
-            return;
-        } else
-            board.updateGrid(nextCell, currentPlayer.getSymbol().getSymbolCode());
     }
 
     public boolean isGameOn(Player player) {

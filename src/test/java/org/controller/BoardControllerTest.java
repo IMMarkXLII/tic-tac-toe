@@ -60,32 +60,6 @@ public class BoardControllerTest extends TestCase {
     }
 
     @Test
-    public void testBoardControllerUpgradeGrid() {
-        BoardController boardController = new BoardController();
-        try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("update-grid/upgrade-grid-1.txt");) {
-            Player player = new CustomPlayer("Tom Haverford", Symbol.X);
-            Scanner scanner = new Scanner(inputStream);
-            boardController.updateGrid(player, scanner);
-            assertEquals(Integer.valueOf(1), boardController.getBoard().getGrid()[0][0]);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
-    public void testBoardControllerUpgradeGridWhenUserChoosesIncorrectOption() {
-        BoardController boardController = new BoardController();
-        try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("update-grid/upgrade-grid-2.txt");) {
-            Player player = new CustomPlayer("Tom Haverford", Symbol.X);
-            Scanner scanner = new Scanner(inputStream);
-            boardController.updateGrid(player, scanner);
-            assertEquals(Integer.valueOf(1), boardController.getBoard().getGrid()[0][1]);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    @Test
     public void testBoardControllerIsGameOnWhenAPlayerWins() {
         BoardController boardController = new BoardController();
         Player player = new CustomPlayer("Tom Haverford", Symbol.X);

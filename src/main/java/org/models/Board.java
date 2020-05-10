@@ -1,6 +1,8 @@
 package org.models;
 
 import java.util.Arrays;
+import java.util.stream.IntStream;
+import java.util.stream.Stream;
 
 public class Board {
     private Integer[][] grid;
@@ -29,6 +31,14 @@ public class Board {
         int rowIndex = (cellNumber - 1) / 3;
         int columnIndex = (cellNumber - 1) % 3;
         return this.grid[rowIndex][columnIndex] == value;
+    }
+
+    public int[] getVacantCells() {
+        Integer[] array = Stream.of(grid)
+                .flatMap(Stream::of).toArray(Integer[]::new);
+        return IntStream.range(1, array.length + 1)
+                .filter(i -> array[i - 1] == 0)
+                .toArray();
     }
 
     public boolean isAtLeastOneCellVacant() {
