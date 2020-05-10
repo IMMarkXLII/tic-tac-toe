@@ -29,14 +29,35 @@ public class BoardController {
 
     public void initializePlayers(Scanner scanner) throws IllegalArgumentException {
 
-        System.out.println("Please enter R to play against a robot, any other key for two player mode.");
-        String gameType = scanner.nextLine();
+        String gameType = getPlayerInput(scanner, "Please enter R to play against a robot, any other key for two player mode.");
 
-        System.out.println("Player 1, please enter your name:");
-        String player1Name = scanner.nextLine();
-        System.out.println(player1Name + ", please choose your symbol 'X' or 'O', default is 'X': press return to skip");
-        String player1SymbolString = scanner.nextLine();
+        String player1Name = getPlayerInput(scanner, "Player 1, please enter your name:");
+        String player1SymbolString = getPlayerInput(scanner, player1Name + ", please choose your symbol 'X' or 'O', default is 'X': press return to skip");
 
+        Symbol player2Symbol = setupPlayer1(player1Name, player1SymbolString);
+
+        setupPlayer2(scanner, gameType, player2Symbol);
+    }
+
+    private String getPlayerInput(Scanner scanner, String prompt) {
+        System.out.println(prompt);
+        return scanner.nextLine();
+    }
+
+    private void setupPlayer2(Scanner scanner, String gameType, Symbol player2Symbol) {
+        if ("R".equals(gameType)) {
+            RobotPlayer player2 = new RobotPlayer("Robot", player2Symbol);
+            board.setPlayer2(player2);
+            System.out.println("Player 2 is " + player2);
+        } else {
+            System.out.println("Player 2, please enter your name:");
+            String player2Name = scanner.nextLine();
+            System.out.println(player2Name + ", Your symbol is " + player2Symbol.toString());
+            board.setPlayer2(new CustomPlayer(player2Name, player2Symbol));
+        }
+    }
+
+    private Symbol setupPlayer1(String player1Name, String player1SymbolString) {
         Symbol player2Symbol;
         switch (player1SymbolString) {
             case "O":
@@ -53,17 +74,7 @@ public class BoardController {
             default:
                 throw new IllegalArgumentException();
         }
-
-        if ("R".equals(gameType)) {
-            RobotPlayer player2 = new RobotPlayer("Robot", player2Symbol);
-            board.setPlayer2(player2);
-            System.out.println("Player 2 is " + player2);
-        } else {
-            System.out.println("Player 2, please enter your name:");
-            String player2Name = scanner.nextLine();
-            System.out.println(player2Name + ", Your symbol is " + player2Symbol.toString());
-            board.setPlayer2(new CustomPlayer(player2Name, player2Symbol));
-        }
+        return player2Symbol;
     }
 
     public void startGame(Scanner scanner) {
@@ -71,7 +82,7 @@ public class BoardController {
         Player firstPlayer = board.getPlayer1();
         Player secondPlayer = board.getPlayer2();
         while (moveCount < 9) {
-            System.out.println(board.toString());
+            System.out.println(board);
             firstPlayer.updateGrid(board, scanner);
             if (!isGameOn(firstPlayer))
                 break;
@@ -82,15 +93,13 @@ public class BoardController {
         }
 
         System.out.println("The final board state is:");
-        System.out.println(board.toString());
+        System.out.println(board);
     }
 
     public boolean isGameOn(Player player) {
         int symbolCode = player.getSymbol().getSymbolCode();
-        for (int[] i : winningCombinations) {
-            if (board.validateCellContent(i[0], symbolCode)
-                    && board.validateCellContent(i[1], symbolCode)
-                    && board.validateCellContent(i[2], symbolCode)) {
+        for (int[] combo : winningCombinations) {
+            if (isAWinningCombo(symbolCode, combo)) {
                 System.out.println(player.getName() + " has won!");
                 return false;
             }
@@ -100,5 +109,11 @@ public class BoardController {
             return true;
         System.out.println("The game is tied!");
         return false;
+    }
+
+    private boolean isAWinningCombo(int symbolCode, int[] index) {
+        return board.validateCellContent(index[0], symbolCode)
+                && board.validateCellContent(index[1], symbolCode)
+                && board.validateCellContent(index[2], symbolCode);
     }
 }

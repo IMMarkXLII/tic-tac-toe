@@ -38,13 +38,12 @@ public class CustomPlayer implements Player {
         if (board.isCellOccupied(nextCell)) {
             System.out.println("Invalid move, cell is already occupied. Please re-enter");
             updateGrid(board, scanner);
-            return;
         } else
             board.updateGrid(nextCell, this.getSymbol().getSymbolCode());
     }
 
     @Override
     public String toString() {
-        return name + ":" + symbol;
+        return name + " is playing " + symbol;
     }
 }
