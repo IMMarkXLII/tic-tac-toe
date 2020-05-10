@@ -1,9 +1,6 @@
 package org.controller;
 
-import org.models.Board;
-import org.models.CustomPlayer;
-import org.models.Player;
-import org.models.Symbol;
+import org.models.*;
 
 import java.util.Scanner;
 
@@ -32,6 +29,9 @@ public class BoardController {
 
     public void initializePlayers(Scanner scanner) throws IllegalArgumentException {
 
+        System.out.println("Please enter R to play against a robot, any other key for two player mode.");
+        String gameType = scanner.nextLine();
+
         System.out.println("Player 1, please enter your name:");
         String player1Name = scanner.nextLine();
         System.out.println(player1Name + ", please choose your symbol 'X' or 'O', default is 'X': press return to skip");
@@ -54,10 +54,16 @@ public class BoardController {
                 throw new IllegalArgumentException();
         }
 
-        System.out.println("Player 2, please enter your name:");
-        String player2Name = scanner.nextLine();
-        System.out.println(player2Name + ", Your symbol is " + player2Symbol.toString());
-        board.setPlayer2(new CustomPlayer(player2Name, player2Symbol));
+        if ("R".equals(gameType)) {
+            RobotPlayer player2 = new RobotPlayer("Robot", player2Symbol);
+            board.setPlayer2(player2);
+            System.out.println("Player 2 is " + player2);
+        } else {
+            System.out.println("Player 2, please enter your name:");
+            String player2Name = scanner.nextLine();
+            System.out.println(player2Name + ", Your symbol is " + player2Symbol.toString());
+            board.setPlayer2(new CustomPlayer(player2Name, player2Symbol));
+        }
     }
 
     public void startGame(Scanner scanner) {
