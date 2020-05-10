@@ -19,8 +19,8 @@ public class BoardControllerTest extends TestCase {
             Scanner scanner = new Scanner(inputStream);
             boardController.initializePlayers(scanner);
             Board board = boardController.getBoard();
-            Player player1 = board.getPlayer1();
-            Player player2 = board.getPlayer2();
+            Player player1 = boardController.getPlayer1();
+            Player player2 = boardController.getPlayer2();
             assertEquals("Leslie Knope", player1.getName());
             assertEquals(Symbol.O, player1.getSymbol());
             assertEquals("Ron Swanson", player2.getName());
@@ -37,8 +37,8 @@ public class BoardControllerTest extends TestCase {
             Scanner scanner = new Scanner(inputStream);
             boardController.initializePlayers(scanner);
             Board board = boardController.getBoard();
-            Player player1 = board.getPlayer1();
-            Player player2 = board.getPlayer2();
+            Player player1 = boardController.getPlayer1();
+            Player player2 = boardController.getPlayer2();
             assertEquals("Leslie Knope", player1.getName());
             assertEquals(Symbol.X, player1.getSymbol());
             assertEquals("Ron Swanson", player2.getName());
@@ -55,8 +55,8 @@ public class BoardControllerTest extends TestCase {
             Scanner scanner = new Scanner(inputStream);
             boardController.initializePlayers(scanner);
             Board board = boardController.getBoard();
-            Player player1 = board.getPlayer1();
-            Player player2 = board.getPlayer2();
+            Player player1 = boardController.getPlayer1();
+            Player player2 = boardController.getPlayer2();
             assertEquals("Leslie Knope", player1.getName());
             assertEquals(Symbol.O, player1.getSymbol());
             assertEquals("Robot", player2.getName());
@@ -84,7 +84,7 @@ public class BoardControllerTest extends TestCase {
         boardController.getBoard().getGrid()[0][0] = 1;
         boardController.getBoard().getGrid()[0][1] = 1;
         boardController.getBoard().getGrid()[0][2] = 1;
-        boolean isGameOn = boardController.isGameOn(player);
+        boolean isGameOn = boardController.getBoard().isGameOn(player);
         assertFalse(isGameOn);
     }
 
@@ -95,7 +95,7 @@ public class BoardControllerTest extends TestCase {
         boardController.getBoard().getGrid()[0][0] = 1;
         boardController.getBoard().getGrid()[0][2] = 1;
         boardController.getBoard().getGrid()[1][1] = 2;
-        boolean isGameOn = boardController.isGameOn(player);
+        boolean isGameOn = boardController.getBoard().isGameOn(player);
         assertTrue(isGameOn);
     }
 
@@ -117,8 +117,8 @@ public class BoardControllerTest extends TestCase {
         boardController.getBoard().getGrid()[2][2] = 2;
         // The isGameOn should return false for both players to be considered a valid test
         // in the actual in game scenario, the game will test only for the player that has played the previous turn
-        boolean isGameOn1 = boardController.isGameOn(player);
-        boolean isGameOn2 = boardController.isGameOn(player2);
+        boolean isGameOn1 = boardController.getBoard().isGameOn(player);
+        boolean isGameOn2 = boardController.getBoard().isGameOn(player2);
         assertFalse(isGameOn1 && isGameOn2);
     }
 }

@@ -1,13 +1,13 @@
 package org.models;
 
+import org.controller.BoardController;
+
 import java.util.Arrays;
 import java.util.stream.IntStream;
 import java.util.stream.Stream;
 
 public class Board {
     private Integer[][] grid;
-    private Player player1;
-    private Player player2;
 
     public Board() {
         grid = new Integer[3][3];
@@ -51,32 +51,7 @@ public class Board {
         return grid;
     }
 
-    public Player getPlayer1() {
-        return player1;
-    }
-
-    public void setPlayer1(Player player1) {
-        this.player1 = player1;
-    }
-
-    public Player getPlayer2() {
-        return player2;
-    }
-
-    public void setPlayer2(Player player2) {
-        this.player2 = player2;
-    }
-
-    @Override
-    public String toString() {
-        return "=====================================================\n"
-                + player1 + " and " + player2 + "\n"
-                + "=====================================================\n"
-                + "Board is:\n" + printBoard()
-                + "\n=====================================================";
-    }
-
-    private String printBoard() {
+    public String printBoard(Player player1, Player player2) {
         StringBuilder boardStringBuilder = new StringBuilder("");
         for (Integer i[] : grid) {
             boardStringBuilder.append("|");
@@ -85,6 +60,31 @@ public class Board {
             }
             boardStringBuilder.append("\n");
         }
-        return boardStringBuilder.toString();
+        return "=====================================================\n"
+                + player1 + " and " + player2 + "\n"
+                + "=====================================================\n"
+                + "Board is:\n" + boardStringBuilder.toString()
+                + "\n=====================================================";
+    }
+
+    public boolean isGameOn(Player player) {
+        int symbolCode = player.getSymbol().getSymbolCode();
+        for (int[] combo : BoardController.winningCombinations) {
+            if (isAWinningCombo(symbolCode, combo)) {
+                System.out.println(player.getName() + " has won!");
+                return false;
+            }
+        }
+
+        if (isAtLeastOneCellVacant())
+            return true;
+        System.out.println("The game is tied!");
+        return false;
+    }
+
+    private boolean isAWinningCombo(int symbolCode, int[] index) {
+        return validateCellContent(index[0], symbolCode)
+                && validateCellContent(index[1], symbolCode)
+                && validateCellContent(index[2], symbolCode);
     }
 }

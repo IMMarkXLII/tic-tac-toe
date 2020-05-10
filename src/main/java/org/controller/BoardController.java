@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class BoardController {
 
-    private static int[][] winningCombinations = {
+    public static int[][] winningCombinations = {
             new int[]{1, 2, 3},
             new int[]{4, 5, 6},
             new int[]{7, 8, 9},
@@ -18,6 +18,8 @@ public class BoardController {
     };
 
     private Board board;
+    private Player player1;
+    private Player player2;
 
     public BoardController() {
         board = new Board();
@@ -25,6 +27,22 @@ public class BoardController {
 
     public Board getBoard() {
         return board;
+    }
+
+    public Player getPlayer1() {
+        return player1;
+    }
+
+    public void setPlayer1(Player player1) {
+        this.player1 = player1;
+    }
+
+    public Player getPlayer2() {
+        return player2;
+    }
+
+    public void setPlayer2(Player player2) {
+        this.player2 = player2;
     }
 
     public void initializePlayers(Scanner scanner) throws IllegalArgumentException {
@@ -46,14 +64,13 @@ public class BoardController {
 
     private void setupPlayer2(Scanner scanner, String gameType, Symbol player2Symbol) {
         if ("R".equals(gameType)) {
-            RobotPlayer player2 = new RobotPlayer("Robot", player2Symbol);
-            board.setPlayer2(player2);
+            this.player2 = new RobotPlayer("Robot", player2Symbol);
             System.out.println("Player 2 is " + player2);
         } else {
             System.out.println("Player 2, please enter your name:");
             String player2Name = scanner.nextLine();
             System.out.println(player2Name + ", Your symbol is " + player2Symbol.toString());
-            board.setPlayer2(new CustomPlayer(player2Name, player2Symbol));
+            this.player2 = new CustomPlayer(player2Name, player2Symbol);
         }
     }
 
@@ -62,13 +79,13 @@ public class BoardController {
         switch (player1SymbolString) {
             case "O":
                 System.out.println(player1Name + ", Your symbol is 'O'");
-                board.setPlayer1(new CustomPlayer(player1Name, Symbol.O));
+                this.player1 = new CustomPlayer(player1Name, Symbol.O);
                 player2Symbol = Symbol.X;
                 break;
             case "X":
             case "":
                 System.out.println(player1Name + ", Your symbol is 'X'");
-                board.setPlayer1(new CustomPlayer(player1Name, Symbol.X));
+                this.player1 = new CustomPlayer(player1Name, Symbol.X);
                 player2Symbol = Symbol.O;
                 break;
             default:
@@ -79,12 +96,12 @@ public class BoardController {
 
     public void startGame(Scanner scanner) {
         int moveCount = 0;
-        Player firstPlayer = board.getPlayer1();
-        Player secondPlayer = board.getPlayer2();
+        Player firstPlayer = player1;
+        Player secondPlayer = player2;
         while (moveCount < 9) {
-            System.out.println(board);
+            System.out.println(board.printBoard(player1, player2));
             firstPlayer.updateGrid(board, scanner);
-            if (!isGameOn(firstPlayer))
+            if (!board.isGameOn(firstPlayer))
                 break;
             Player tmp = firstPlayer;
             firstPlayer = secondPlayer;
@@ -93,27 +110,8 @@ public class BoardController {
         }
 
         System.out.println("The final board state is:");
-        System.out.println(board);
+        System.out.println(board.printBoard(player1, player2));
     }
 
-    public boolean isGameOn(Player player) {
-        int symbolCode = player.getSymbol().getSymbolCode();
-        for (int[] combo : winningCombinations) {
-            if (isAWinningCombo(symbolCode, combo)) {
-                System.out.println(player.getName() + " has won!");
-                return false;
-            }
-        }
 
-        if (board.isAtLeastOneCellVacant())
-            return true;
-        System.out.println("The game is tied!");
-        return false;
-    }
-
-    private boolean isAWinningCombo(int symbolCode, int[] index) {
-        return board.validateCellContent(index[0], symbolCode)
-                && board.validateCellContent(index[1], symbolCode)
-                && board.validateCellContent(index[2], symbolCode);
-    }
 }

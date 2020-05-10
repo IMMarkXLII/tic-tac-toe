@@ -22,10 +22,18 @@ public class RobotPlayer implements Player {
 
     @Override
     public void updateGrid(Board board, Scanner scanner) {
+        int nextCell = calculateNextMove(board);
+        board.updateGrid(nextCell, symbol.getSymbolCode());
+    }
+
+    private int calculateNextMove(Board board) {
         int[] emptyCells = board.getVacantCells();
         Random random = new Random();
-        int nextCell = emptyCells[random.nextInt(emptyCells.length)];
-        board.updateGrid(nextCell, symbol.getSymbolCode());
+        return emptyCells[random.nextInt(emptyCells.length)];
+    }
+
+    private int calculateOptimalMove(Board board) {
+        return -1;
     }
 
     @Override
