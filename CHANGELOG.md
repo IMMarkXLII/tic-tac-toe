@@ -9,3 +9,8 @@ v2.0.0
 ------
 * Add support for Robot Player
 * Calculate optimal move for robot player
+
+v2.0.1
+------
+* Make grid size and number of adjacent cells to be filled for a win as configurable
+* Let user choose the grid size

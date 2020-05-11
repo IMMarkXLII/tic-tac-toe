@@ -15,7 +15,7 @@ import java.util.stream.Collectors;
 public class RobotPlayerTest extends TestCase {
     @Test
     public void testRobotPlayerUpgradeGrid() {
-        BoardController boardController = new BoardController();
+        BoardController boardController = new BoardController(3);
         try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("update-grid/upgrade-grid-1.txt");) {
             Player player = new RobotPlayer("Tom Haverford", Symbol.X);
             Scanner scanner = new Scanner(inputStream);
@@ -38,7 +38,7 @@ public class RobotPlayerTest extends TestCase {
     public void testRobotPlayerCalculateOptimalMove() {
         RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
 
-        Board board = new Board();
+        Board board = new Board(3, 3);
         board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 2;
         board.getGrid()[1][0] = 0; board.getGrid()[1][1] = 0; board.getGrid()[1][2] = 0;
         board.getGrid()[2][0] = 1; board.getGrid()[2][1] = 1; board.getGrid()[2][2] = 2;
@@ -50,7 +50,7 @@ public class RobotPlayerTest extends TestCase {
     public void testRobotPlayerCalculateOptimalMove2() {
         RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
 
-        Board board = new Board();
+        Board board = new Board(3, 3);
         board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 1;
         board.getGrid()[1][0] = 0; board.getGrid()[1][1] = 0; board.getGrid()[1][2] = 0;
         board.getGrid()[2][0] = 1; board.getGrid()[2][1] = 1; board.getGrid()[2][2] = 2;
@@ -62,7 +62,7 @@ public class RobotPlayerTest extends TestCase {
     public void testRobotPlayerCalculateOptimalMove3() {
         RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
 
-        Board board = new Board();
+        Board board = new Board(3, 3);
         board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 2;
         board.getGrid()[1][0] = 1; board.getGrid()[1][1] = 0; board.getGrid()[1][2] = 1;
         board.getGrid()[2][0] = 2; board.getGrid()[2][1] = 1; board.getGrid()[2][2] = 2;
@@ -74,7 +74,7 @@ public class RobotPlayerTest extends TestCase {
     public void testRobotPlayerCalculateOptimalMove4() {
         RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
 
-        Board board = new Board();
+        Board board = new Board(3, 3);
         board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 2;
         board.getGrid()[1][0] = 0; board.getGrid()[1][1] = 1; board.getGrid()[1][2] = 0;
         board.getGrid()[2][0] = 2; board.getGrid()[2][1] = 1; board.getGrid()[2][2] = 2;

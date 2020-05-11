@@ -11,7 +11,7 @@ import java.util.Scanner;
 public class CustomPlayerTest extends TestCase {
     @Test
     public void testCustomPlayerUpgradeGrid() {
-        BoardController boardController = new BoardController();
+        BoardController boardController = new BoardController(3);
         try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("update-grid/upgrade-grid-1.txt");) {
             Player player = new CustomPlayer("Tom Haverford", Symbol.X);
             Scanner scanner = new Scanner(inputStream);
@@ -24,7 +24,7 @@ public class CustomPlayerTest extends TestCase {
 
     @Test
     public void testCustomPlayerUpgradeGridWhenUserChoosesIncorrectOption() {
-        BoardController boardController = new BoardController();
+        BoardController boardController = new BoardController(3);
         try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("update-grid/upgrade-grid-2.txt");) {
             Player player = new CustomPlayer("Tom Haverford", Symbol.X);
             Scanner scanner = new Scanner(inputStream);

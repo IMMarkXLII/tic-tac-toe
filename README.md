@@ -1,5 +1,14 @@
 # Tic Tac Toe
 
+## Prerequisites
+
+* jdk 1.8 or greater
+    - `brew cask install homebrew/cask-versions/adoptopenjdk8`
+    - `export JAVA_HOME=/Library/Java/JavaVirtualMachines/adoptopenjdk-8.jdk/Contents/Home`
+* maven 3.0 or greater
+    - `brew install maven@3.5`
+    - if not added, add maven to your path - `export PATH="/usr/local/opt/maven@3.5/bin:$PATH"`
+    
 ## Commands to build and run the app
 
 ``` make build or make b``` 
@@ -14,7 +23,13 @@
 ``` make compile ``` 
 * compile the project
 
+## Assumptions
+
+* If player 1 inserts incorrect symbol choice or skips the choice, X will automatically be set as default for player 1
+* If a player skips name input, the systems sets the player name to player 1 or player 2
+
 ### Alternatively on your IDE run the TicTacToe java file.
+
 
 ### Sample Game Play
 ```
