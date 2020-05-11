@@ -51,7 +51,7 @@ public class BoardController {
 
     private String getPlayerInput(Scanner scanner, String prompt) {
         System.out.println(prompt);
-        return scanner.nextLine();
+        return scanner.nextLine().trim();
     }
 
     private void setupPlayer2(Scanner scanner, String gameType, Symbol player2Symbol) {
@@ -74,14 +74,12 @@ public class BoardController {
                 this.player1 = new CustomPlayer(player1Name, Symbol.O);
                 player2Symbol = Symbol.X;
                 break;
+            default:
+                System.out.println("WARNING: Invalid input, using default 'X'");
             case "X":
-            case "":
                 System.out.println(player1Name + ", Your symbol is 'X'");
                 this.player1 = new CustomPlayer(player1Name, Symbol.X);
                 player2Symbol = Symbol.O;
-                break;
-            default:
-                throw new IllegalArgumentException();
         }
         return player2Symbol;
     }

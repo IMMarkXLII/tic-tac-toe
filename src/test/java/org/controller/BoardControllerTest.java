@@ -66,13 +66,19 @@ public class BoardControllerTest extends TestCase {
         }
     }
 
-    @Test(expected = IllegalArgumentException.class)
-    public void testBoardControllerInitializePlayersFails() {
+    @Test
+    public void testBoardControllerInitializePlayersDefaultsToX() {
         BoardController boardController = new BoardController();
         try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("initialize-players/initialize-players-3-incorrect-input.txt");) {
             Scanner scanner = new Scanner(inputStream);
             boardController.initializePlayers(scanner);
-        } catch (IllegalArgumentException | IOException e) {
+            Player player1 = boardController.getPlayer1();
+            Player player2 = boardController.getPlayer2();
+            assertEquals("Leslie Knope", player1.getName());
+            assertEquals(Symbol.X, player1.getSymbol());
+            assertEquals("Ron Swanson", player2.getName());
+            assertEquals(Symbol.O, player2.getSymbol());
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
