@@ -3,6 +3,7 @@ package org.tictactoe;
 import org.controller.BoardController;
 
 import java.io.InputStream;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 public final class TicTacToe {
@@ -10,7 +11,7 @@ public final class TicTacToe {
     private InputStream inputStream;
 
     public TicTacToe(InputStream stream) {
-        this.boardController = new BoardController();
+
         this.inputStream = stream;
     }
 
@@ -20,8 +21,24 @@ public final class TicTacToe {
 
     public void start() {
         Scanner scanner = new Scanner(this.inputStream);
+        int gridSize = getGridSize(scanner);
+        this.boardController = new BoardController(gridSize);
         this.boardController.initializePlayers(scanner);
         this.boardController.startGame(scanner);
+    }
+
+    private int getGridSize(Scanner scanner) {
+        String nextLine = scanner.nextLine();
+        int gridSize;
+        try {
+            gridSize = Integer.parseInt(nextLine);
+            if (gridSize < 3 || gridSize % 2 == 0)
+                throw new InputMismatchException();
+        } catch (NumberFormatException | InputMismatchException e) {
+            System.out.println("Please enter a valid grid size, 3 or any subsequent odd number");
+            return getGridSize(scanner);
+        }
+        return gridSize;
     }
 
     public static void main(String[] args) {

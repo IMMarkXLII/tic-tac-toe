@@ -6,23 +6,12 @@ import java.util.Scanner;
 
 public class BoardController {
 
-    public static int[][] winningCombinations = {
-            new int[]{1, 2, 3},
-            new int[]{4, 5, 6},
-            new int[]{7, 8, 9},
-            new int[]{1, 4, 7},
-            new int[]{2, 5, 8},
-            new int[]{3, 6, 9},
-            new int[]{1, 5, 9},
-            new int[]{3, 5, 7}
-    };
-
     private Board board;
     private Player player1;
     private Player player2;
 
-    public BoardController() {
-        board = new Board();
+    public BoardController(int gridSize) {
+        board = new Board(gridSize, gridSize > 3 ? 4 : gridSize);
     }
 
     public Board getBoard() {
