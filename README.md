@@ -23,6 +23,11 @@
 ``` make compile ``` 
 * compile the project
 
+## Assumptions
+
+* If player 1 inserts incorrect symbol choice or skips the choice, X will automatically be set as default for player 1
+* If a player skips name input, the systems sets the player name to player 1 or player 2
+
 ### Alternatively on your IDE run the TicTacToe java file.
 
 
