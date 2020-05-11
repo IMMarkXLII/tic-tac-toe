@@ -44,7 +44,7 @@ public class BoardController {
         String player1Name = getPlayerInput(scanner, "Player 1, please enter your name:");
         String player1SymbolString = getPlayerInput(scanner, player1Name + ", please choose your symbol 'X' or 'O', default is 'X': press return to skip");
 
-        Symbol player2Symbol = setupPlayer1(player1Name, player1SymbolString);
+        Symbol player2Symbol = setupPlayer1(player1Name.isEmpty() ? "Player 1" : player1Name, player1SymbolString);
 
         setupPlayer2(scanner, gameType, player2Symbol);
     }
@@ -60,7 +60,8 @@ public class BoardController {
             System.out.println("Player 2 is " + player2);
         } else {
             System.out.println("Player 2, please enter your name:");
-            String player2Name = scanner.nextLine();
+            String player2Input = scanner.nextLine();
+            String player2Name = player2Input.isEmpty() ? "Player 2" : player2Input;
             System.out.println(player2Name + ", Your symbol is " + player2Symbol.toString());
             this.player2 = new CustomPlayer(player2Name, player2Symbol);
         }
