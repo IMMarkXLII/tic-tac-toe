@@ -19,6 +19,14 @@ public class Board {
         this.grid = grid;
     }
 
+    public Board copy() {
+        Board board = new Board(new Integer[][]{
+                Arrays.copyOf(grid[0], 3),
+                Arrays.copyOf(grid[1], 3),
+                Arrays.copyOf(grid[2], 3)});
+        return board;
+    }
+
     public boolean isCellOccupied(int cellNumber) {
         int rowIndex = (cellNumber - 1) / 3;
         int columnIndex = (cellNumber - 1) % 3;
@@ -31,7 +39,7 @@ public class Board {
         this.grid[rowIndex][columnIndex] = value;
     }
 
-    public boolean validateCellContent(int cellNumber, int value) {
+    private boolean validateCellContent(int cellNumber, int value) {
         int rowIndex = (cellNumber - 1) / 3;
         int columnIndex = (cellNumber - 1) % 3;
         return this.grid[rowIndex][columnIndex] == value;
@@ -54,14 +62,6 @@ public class Board {
     public Integer[][] getGrid() {
         return grid;
     }
-
-    public Integer[][] getGridCopy() {
-        return new Integer[][]{
-                Arrays.copyOf(grid[0], 3),
-                Arrays.copyOf(grid[1], 3),
-                Arrays.copyOf(grid[2], 3)};
-    }
-
 
     public String printBoard(Player player1, Player player2) {
         StringBuilder boardStringBuilder = new StringBuilder("");

@@ -33,16 +33,8 @@ public class BoardController {
         return player1;
     }
 
-    public void setPlayer1(Player player1) {
-        this.player1 = player1;
-    }
-
     public Player getPlayer2() {
         return player2;
-    }
-
-    public void setPlayer2(Player player2) {
-        this.player2 = player2;
     }
 
     public void initializePlayers(Scanner scanner) throws IllegalArgumentException {
@@ -95,10 +87,9 @@ public class BoardController {
     }
 
     public void startGame(Scanner scanner) {
-        int moveCount = 0;
         Player firstPlayer = player1;
         Player secondPlayer = player2;
-        while (moveCount < 9) {
+        while (board.isAtLeastOneCellVacant()) {
             System.out.println(board.printBoard(player1, player2));
             firstPlayer.updateGrid(board, scanner);
             if (!board.isGameOn(firstPlayer))
@@ -106,12 +97,9 @@ public class BoardController {
             Player tmp = firstPlayer;
             firstPlayer = secondPlayer;
             secondPlayer = tmp;
-            moveCount++;
         }
 
         System.out.println("The final board state is:");
         System.out.println(board.printBoard(player1, player2));
     }
-
-
 }

@@ -42,7 +42,7 @@ public class RobotPlayer implements Player {
 
     public void calculateOptimalMove(Board board, int otherPlayerSymbol, int level) {
         for (Integer vacantCell : board.getVacantCells()) {
-            Board newBoard = new Board(board.getGridCopy());
+            Board newBoard = board.copy();
             newBoard.updateGrid(vacantCell, symbol.getSymbolCode());
             if (newBoard.isPlayerWinning(symbol.getSymbolCode())) {
                 if (bestMoveScore < 1 && (level <= bestMoveLevel || bestMoveLevel == -1)) {
@@ -60,7 +60,7 @@ public class RobotPlayer implements Player {
 
     private void checkOppositePlayersMoves(int otherPlayerSymbol, int level, Integer vacantCell, Board newBoard) {
         for (Integer vacant : newBoard.getVacantCells()) {
-            Board player2Board = new Board(newBoard.getGridCopy());
+            Board player2Board = newBoard.copy();
             player2Board.updateGrid(vacant, otherPlayerSymbol);
             if (player2Board.isPlayerWinning(otherPlayerSymbol)) {
                 if (bestMoveScore < 1 && (level <= bestMoveLevel || bestMoveLevel == -1)) {
