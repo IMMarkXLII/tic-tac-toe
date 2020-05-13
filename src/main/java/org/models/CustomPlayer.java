@@ -6,7 +6,15 @@ import java.util.Scanner;
 public class CustomPlayer implements Player {
     private String name;
     private Symbol symbol;
+    private int lastMove;
 
+    public int getLastMove() {
+        return this.lastMove;
+    }
+
+    public void setLastMove(int lastMove) {
+        this.lastMove = lastMove;
+    }
     public CustomPlayer(String name, Symbol symbol) {
         this.name = name;
         this.symbol = symbol;
@@ -22,15 +30,16 @@ public class CustomPlayer implements Player {
 
     @Override
     public void updateGrid(Board board, Scanner scanner) {
-        System.out.println(this + ", please choose as empty cell for your next move using the numbers 1 to 9");
+        double maxCellNumber = Math.pow(board.getGrid().length, 2);
+        System.out.println(this + ", please choose as empty cell for your next move using the numbers 1 to " + maxCellNumber);
         int nextCell;
         try {
             String nextLine = scanner.nextLine();
             nextCell = Integer.parseInt(nextLine);
-            if (nextCell < 1 || nextCell > 9)
+            if (nextCell < 1 || nextCell > maxCellNumber)
                 throw new InputMismatchException();
         } catch (InputMismatchException | NumberFormatException e) {
-            System.out.println("Invalid move, value is invalid(Invalid number or outside of range 1-9). Please re-enter");
+            System.out.println("Invalid move, value is invalid(Invalid number or outside of range 1-" + maxCellNumber + "). Please re-enter");
             updateGrid(board, scanner);
             return;
         }
@@ -38,8 +47,10 @@ public class CustomPlayer implements Player {
         if (board.isCellOccupied(nextCell)) {
             System.out.println("Invalid move, cell is already occupied. Please re-enter");
             updateGrid(board, scanner);
-        } else
+        } else {
             board.updateGrid(nextCell, this.getSymbol().getSymbolCode());
+            this.lastMove = nextCell;
+        }
     }
 
     @Override

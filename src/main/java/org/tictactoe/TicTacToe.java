@@ -28,14 +28,15 @@ public final class TicTacToe {
     }
 
     private int getGridSize(Scanner scanner) {
+        System.out.println("Please enter a valid grid size, 3 or any subsequent odd number");
         String nextLine = scanner.nextLine();
         int gridSize;
         try {
             gridSize = Integer.parseInt(nextLine);
-            if (gridSize < 3 || gridSize % 2 == 0)
+            if (gridSize < 3 || gridSize % 2 == 0) {
                 throw new InputMismatchException();
+            }
         } catch (NumberFormatException | InputMismatchException e) {
-            System.out.println("Please enter a valid grid size, 3 or any subsequent odd number");
             return getGridSize(scanner);
         }
         return gridSize;

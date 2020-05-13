@@ -80,7 +80,9 @@ public class Board {
     }
 
     public boolean isGameOn(Player player) {
-        if (isPlayerWinning(player.getSymbol().getSymbolCode())) {
+        if (player.getLastMove() < 0)
+            return true;
+        if (checkWin(player.getSymbol().getSymbolCode(), player.getLastMove())) {
             System.out.println(player.getName() + " has won!");
             return false;
         }
@@ -91,25 +93,46 @@ public class Board {
         return false;
     }
 
-    public boolean isPlayerWinning(int playerCode) {
-        String winningStr = getWinningString(playerCode);
-        List<String> diagonalL2RCells = new ArrayList<>(), diagonalR2LCells = new ArrayList<>();
+    public boolean checkWin(int code, int lastCell) {
+        String winningStr = getWinningString(code);
 
-        for (int iIndex = 0; iIndex < grid.length; iIndex++) {
-            List<String> column = new ArrayList<>(), row = new ArrayList<>();
-            for (int jIndex = 0; jIndex < grid.length; jIndex++) {
-                row.add(grid[iIndex][jIndex].toString());
-                column.add(grid[jIndex][iIndex].toString());
-                if (isListHasWinningString(winningStr, column) || isListHasWinningString(winningStr, row))
-                    return true;
-                if (iIndex == jIndex) {
-                    diagonalL2RCells.add(grid[iIndex][iIndex].toString());
-                    diagonalR2LCells.add(grid[iIndex][grid.length - iIndex - 1].toString());
-                    if (isListHasWinningString(winningStr, diagonalL2RCells) || isListHasWinningString(winningStr, diagonalR2LCells))
-                        return true;
-                }
-            }
+        int rowIndex = (lastCell - 1) / grid.length;
+        int columnIndex = (lastCell - 1) % grid.length;
+
+        //verify only the row where last update was made
+        List<String> row = new ArrayList<>();
+        for (int i = rowIndex, j = 0; j < grid.length; j++) {
+            row.add(grid[i][j].toString());
+            if (isListHasWinningString(winningStr, row))
+                return true;
         }
+
+        //verify only the column where last update was made
+        List<String> column = new ArrayList<>();
+        for (int i = 0, j = columnIndex; i < grid.length; i++) {
+            column.add(grid[i][j].toString());
+            if (isListHasWinningString(winningStr, column))
+                return true;
+        }
+
+        //verify descending diagonal for the last cell entered
+        int minIndex = Math.min(rowIndex, columnIndex);
+        List<String> descendingDiagonal = new ArrayList<>();
+        for (int i = rowIndex - minIndex, j = columnIndex - minIndex; i < grid.length && j < grid.length; i++, j++) {
+            descendingDiagonal.add(grid[i][j].toString());
+            if (isListHasWinningString(winningStr, descendingDiagonal))
+                return true;
+        }
+
+        //verify ascending diagonal for the last cell entered
+        int maxPossibleMovement = Math.min(grid.length - 1 - rowIndex, columnIndex);
+        List<String> ascendingDiagonal = new ArrayList<>();
+        for (int i = rowIndex + maxPossibleMovement, j = columnIndex - maxPossibleMovement; i >= 0 && j < grid.length; i--, j++) {
+            ascendingDiagonal.add(grid[i][j].toString());
+            if (isListHasWinningString(winningStr, ascendingDiagonal))
+                return true;
+        }
+
         return false;
     }
 

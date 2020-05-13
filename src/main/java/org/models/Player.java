@@ -7,5 +7,9 @@ public interface Player {
 
     Symbol getSymbol();
 
+    int getLastMove();
+
+    void setLastMove(int lastMove);
+
     void updateGrid(Board board, Scanner scanner);
 }

@@ -5,10 +5,19 @@ import java.util.Scanner;
 public class RobotPlayer implements Player {
     private String name;
     private Symbol symbol;
+    private int lastMove;
 
     public RobotPlayer(String name, Symbol symbol) {
         this.name = name;
         this.symbol = symbol;
+    }
+
+    public int getLastMove() {
+        return this.lastMove;
+    }
+
+    public void setLastMove(int lastMove) {
+        this.lastMove = lastMove;
     }
 
     public String getName() {
@@ -24,6 +33,7 @@ public class RobotPlayer implements Player {
         int otherPlayerSymbol = symbol.getSymbolCode() == 1 ? 2 : 1;
         calculateOptimalMove(board, otherPlayerSymbol, 1);
         board.updateGrid(bestMove, symbol.getSymbolCode());
+        this.lastMove = bestMove;
         bestMove = bestMoveScore = -1;
         bestMoveLevel = 1;
     }
@@ -36,14 +46,14 @@ public class RobotPlayer implements Player {
         for (Integer vacantCell : board.getVacantCells()) {
             Board newBoard = board.copy();
             newBoard.updateGrid(vacantCell, symbol.getSymbolCode());
-            if (newBoard.isPlayerWinning(symbol.getSymbolCode())) {
-                if (bestMoveScore < 1 && level <= bestMoveLevel) {
+            if (newBoard.checkWin(symbol.getSymbolCode(), vacantCell)) {
+                if (bestMoveScore < 1 && (level <= bestMoveLevel || bestMoveLevel == -1)) {
                     setStats(level, vacantCell, 1);
                 }
             } else if (newBoard.isAtLeastOneCellVacant()) {
                 checkOppositePlayersMoves(otherPlayerSymbol, level, vacantCell, newBoard);
             } else {
-                if (bestMoveScore < 1 && level <= bestMoveLevel) {
+                if (bestMoveScore < 1 && (level <= bestMoveLevel || bestMoveLevel == -1)) {
                     setStats(level, vacantCell, 0);
                 }
             }
@@ -60,14 +70,14 @@ public class RobotPlayer implements Player {
         for (Integer vacant : newBoard.getVacantCells()) {
             Board player2Board = newBoard.copy();
             player2Board.updateGrid(vacant, otherPlayerSymbol);
-            if (player2Board.isPlayerWinning(otherPlayerSymbol)) {
-                if (bestMoveScore < 1 && level <= bestMoveLevel) {
+            if (player2Board.checkWin(otherPlayerSymbol, vacant)) {
+                if (bestMoveScore < 1 && (level <= bestMoveLevel || bestMoveLevel == -1)) {
                     setStats(level, vacant, 2);
                 }
             } else if (player2Board.isAtLeastOneCellVacant()) {
                 calculateOptimalMove(player2Board, otherPlayerSymbol, level + 1);
             } else {
-                if (bestMoveScore < 1 && level <= bestMoveLevel) {
+                if (bestMoveScore < 1 && (level <= bestMoveLevel || bestMoveLevel == -1)) {
                     setStats(level, vacantCell, 0);
                 }
             }

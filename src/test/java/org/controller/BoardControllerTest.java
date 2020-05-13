@@ -95,9 +95,10 @@ public class BoardControllerTest extends TestCase {
     public void testBoardControllerIsGameOnWhenCellsAreEmpty() {
         BoardController boardController = new BoardController(3);
         Player player = new CustomPlayer("Tom Haverford", Symbol.X);
-        boardController.getBoard().getGrid()[0][0] = 1;
-        boardController.getBoard().getGrid()[0][2] = 1;
-        boardController.getBoard().getGrid()[1][1] = 2;
+        player.setLastMove(5);
+        boardController.getBoard().updateGrid(1, 1);
+        boardController.getBoard().updateGrid(3, 1);
+        boardController.getBoard().updateGrid(5, 1);
         boolean isGameOn = boardController.getBoard().isGameOn(player);
         assertTrue(isGameOn);
     }
@@ -118,6 +119,8 @@ public class BoardControllerTest extends TestCase {
         boardController.getBoard().getGrid()[2][0] = 2;
         boardController.getBoard().getGrid()[2][1] = 1;
         boardController.getBoard().getGrid()[2][2] = 2;
+        player.setLastMove(8);
+        player2.setLastMove(9);
         // The isGameOn should return false for both players to be considered a valid test
         // in the actual in game scenario, the game will test only for the player that has played the previous turn
         boolean isGameOn1 = boardController.getBoard().isGameOn(player);
