@@ -11,10 +11,10 @@ public class BoardTest extends TestCase {
         board.updateGrid(13, 1);
         board.updateGrid(17, 1);
         board.updateGrid(21, 1);
-        assertTrue(board.checkWin(1, 9));
-        assertTrue(board.checkWin(1, 13));
-        assertTrue(board.checkWin(1, 17));
-        assertTrue(board.checkWin(1, 21));
+        assertTrue(board.hasPlayerWon(1, 9));
+        assertTrue(board.hasPlayerWon(1, 13));
+        assertTrue(board.hasPlayerWon(1, 17));
+        assertTrue(board.hasPlayerWon(1, 21));
     }
 
     @Test
@@ -24,10 +24,10 @@ public class BoardTest extends TestCase {
         board.updateGrid(12, 1);
         board.updateGrid(18, 1);
         board.updateGrid(24, 1);
-        assertTrue(board.checkWin(1, 6));
-        assertTrue(board.checkWin(1, 12));
-        assertTrue(board.checkWin(1, 18));
-        assertTrue(board.checkWin(1, 24));
+        assertTrue(board.hasPlayerWon(1, 6));
+        assertTrue(board.hasPlayerWon(1, 12));
+        assertTrue(board.hasPlayerWon(1, 18));
+        assertTrue(board.hasPlayerWon(1, 24));
     }
 
     @Test
@@ -38,7 +38,7 @@ public class BoardTest extends TestCase {
         board.updateGrid(18, 1);
         board.updateGrid(24, 1);
         for (int i = 1; i <= 25; i++)
-            assertFalse(board.checkWin(1, i));
+            assertFalse(board.hasPlayerWon(1, i));
     }
 
     @Test
@@ -48,7 +48,7 @@ public class BoardTest extends TestCase {
         board.updateGrid(12, 1);
         board.updateGrid(18, 1);
         for (int i = 1; i <= 25; i++)
-            assertFalse(board.checkWin(1, i));
+            assertFalse(board.hasPlayerWon(1, i));
     }
 
     @Test
@@ -61,7 +61,7 @@ public class BoardTest extends TestCase {
         board.updateGrid(25, 1);
         System.out.println(board.printBoard(new CustomPlayer("A", Symbol.X), new CustomPlayer("A", Symbol.O)));
         for (int i = 1; i <= 25; i++)
-            assertFalse(board.checkWin(1, i));
+            assertFalse(board.hasPlayerWon(1, i));
     }
 
     @Test
@@ -75,7 +75,7 @@ public class BoardTest extends TestCase {
         board.updateGrid(7, 2);
         board.updateGrid(8, 1);
         board.updateGrid(9, 1);
-        assertTrue(board.checkWin(2, 4));
+        assertTrue(board.hasPlayerWon(2, 4));
     }
 
 }

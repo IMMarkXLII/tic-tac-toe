@@ -77,7 +77,7 @@ public class BoardController {
     public void startGame(Scanner scanner) {
         Player firstPlayer = player1;
         Player secondPlayer = player2;
-        while (board.isAtLeastOneCellVacant()) {
+        while (board.hasGridSpace()) {
             System.out.println(board.printBoard(player1, player2));
             firstPlayer.updateGrid(board, scanner);
             if (!board.isGameOn(firstPlayer))

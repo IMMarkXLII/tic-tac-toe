@@ -82,4 +82,53 @@ public class RobotPlayerTest extends TestCase {
         assertEquals(6, player.bestMove);
     }
 
+    @Test
+    public void testRobotPlayerFindBestMove() {
+        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
+
+        Board board = new Board(3, 3);
+        board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 2;
+        board.getGrid()[1][0] = 0; board.getGrid()[1][1] = 0; board.getGrid()[1][2] = 0;
+        board.getGrid()[2][0] = 1; board.getGrid()[2][1] = 1; board.getGrid()[2][2] = 2;
+        RobotPlayer.Move bestMove = player.findBestMove(board, 2);
+        assertEquals(6, bestMove.cell);
+    }
+
+    @Test
+    public void testRobotPlayerFindBestMove2() {
+        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
+
+        Board board = new Board(3, 3);
+        board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 1;
+        board.getGrid()[1][0] = 0; board.getGrid()[1][1] = 0; board.getGrid()[1][2] = 0;
+        board.getGrid()[2][0] = 1; board.getGrid()[2][1] = 1; board.getGrid()[2][2] = 2;
+        RobotPlayer.Move bestMove = player.findBestMove(board, 2);
+        assertEquals(4, bestMove.cell);
+    }
+
+    @Test
+    public void testRobotPlayerFindBestMove3() {
+        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
+
+        Board board = new Board(3, 3);
+        board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 2;
+        board.getGrid()[1][0] = 1; board.getGrid()[1][1] = 0; board.getGrid()[1][2] = 1;
+        board.getGrid()[2][0] = 2; board.getGrid()[2][1] = 1; board.getGrid()[2][2] = 2;
+        RobotPlayer.Move bestMove = player.findBestMove(board, 2);
+        assertEquals(5, bestMove.cell);
+    }
+
+    @Test
+    public void testRobotPlayerFindBestMove4(){
+        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
+
+        Board board = new Board(3,3);
+        board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 2;
+        board.getGrid()[1][0] = 0; board.getGrid()[1][1] = 1; board.getGrid()[1][2] = 0;
+        board.getGrid()[2][0] = 2; board.getGrid()[2][1] = 1; board.getGrid()[2][2] = 2;
+
+        RobotPlayer.Move bestMove = player.findBestMove(board, 2);
+        assertEquals(6, bestMove.cell);
+    }
+
 }

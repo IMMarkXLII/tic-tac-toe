@@ -38,12 +38,6 @@ public class Board {
         this.grid[rowIndex][columnIndex] = value;
     }
 
-    private boolean validateCellContent(int cellNumber, int value) {
-        int rowIndex = (cellNumber - 1) / grid.length;
-        int columnIndex = (cellNumber - 1) % grid.length;
-        return this.grid[rowIndex][columnIndex] == value;
-    }
-
     public int[] getVacantCells() {
         Integer[] array = Stream.of(grid)
                 .flatMap(Stream::of).toArray(Integer[]::new);
@@ -52,7 +46,7 @@ public class Board {
                 .toArray();
     }
 
-    public boolean isAtLeastOneCellVacant() {
+    public boolean hasGridSpace() {
         for (Integer[] row : grid)
             if (Arrays.asList(row).contains(0))
                 return true;
@@ -63,7 +57,21 @@ public class Board {
         return grid;
     }
 
+    @Override
+    public String toString() {
+        return getBoardStringBuilder().toString();
+    }
+
     public String printBoard(Player player1, Player player2) {
+        StringBuilder boardStringBuilder = getBoardStringBuilder();
+        return "=====================================================\n"
+                + player1 + " and " + player2 + "\n"
+                + "=====================================================\n"
+                + "Board is:\n" + boardStringBuilder.toString()
+                + "\n=====================================================";
+    }
+
+    private StringBuilder getBoardStringBuilder() {
         StringBuilder boardStringBuilder = new StringBuilder();
         for (Integer i[] : grid) {
             boardStringBuilder.append("|");
@@ -72,28 +80,24 @@ public class Board {
             }
             boardStringBuilder.append("\n");
         }
-        return "=====================================================\n"
-                + player1 + " and " + player2 + "\n"
-                + "=====================================================\n"
-                + "Board is:\n" + boardStringBuilder.toString()
-                + "\n=====================================================";
+        return boardStringBuilder;
     }
 
     public boolean isGameOn(Player player) {
         if (player.getLastMove() < 0)
             return true;
-        if (checkWin(player.getSymbol().getSymbolCode(), player.getLastMove())) {
+        if (hasPlayerWon(player.getSymbol().getSymbolCode(), player.getLastMove())) {
             System.out.println(player.getName() + " has won!");
             return false;
         }
 
-        if (isAtLeastOneCellVacant())
+        if (hasGridSpace())
             return true;
         System.out.println("The game is tied!");
         return false;
     }
 
-    public boolean checkWin(int code, int lastCell) {
+    public boolean hasPlayerWon(int code, int lastCell) {
         String winningStr = getWinningString(code);
 
         int rowIndex = (lastCell - 1) / grid.length;
