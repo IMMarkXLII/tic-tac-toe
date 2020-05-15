@@ -14,3 +14,8 @@ v3.0.0
 ------
 * Make grid size and number of adjacent cells to be filled for a win as configurable
 * Let user choose the grid size
+
+v4.0.0
+------
+* Add difficulty level to the robot player
+* Lets user chose the difficulty level between 0 and 10

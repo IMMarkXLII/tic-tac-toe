@@ -1,5 +1,7 @@
 # Tic Tac Toe
 
+## Please check changelog for different variants of the game
+
 ## Prerequisites
 
 * jdk 1.8 or greater
