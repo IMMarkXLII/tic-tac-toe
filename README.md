@@ -25,8 +25,16 @@
 
 ## Assumptions
 
-* If player 1 inserts incorrect symbol choice or skips the choice, X will automatically be set as default for player 1
-* If a player skips name input, the systems sets the player name to player 1 or player 2
+    * If player 1 inserts incorrect symbol choice or skips the choice, X will automatically be set as default for player 1
+    * If a player skips name input, the systems sets the player name to player 1 or player 2
+    * Calculating the optimal move is capped to a depth of 5. Anything more than that takes more time than would be prudent for a gameplay.
+    
+    # Difficulty Level
+    * Difficulty Level is implemented based on a random probability function
+    * The program generates a random number between 0 and 10, if the random number is less than the player's chosen level, the robot playes the optimum next move
+    * otherwise a random next move is played by the robot
+    
+
 
 ### Alternatively on your IDE run the TicTacToe java file.
 

@@ -3,6 +3,7 @@ package org.models;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class RobotPlayer implements Player {
@@ -35,13 +36,23 @@ public class RobotPlayer implements Player {
 
     @Override
     public void updateGrid(Board board, Scanner scanner) {
-        int move = findBestMove(board, this.symbol.getSymbolCode()).cell;
+        System.out.println("Please wait, the computer is playing!");
+        int move;
+        if (new Random(11).nextInt() < difficultyLevel){
+            Move nextMove = findBestMove(board, this.symbol.getSymbolCode(), 0);
+            move = nextMove != null ? nextMove.cell : randomNextMove(board);
+        }
+        else
+            move = randomNextMove(board);
         board.updateGrid(move, symbol.getSymbolCode());
         this.lastMove = move;
     }
 
+    @Deprecated
     int bestMove = -1;
+    @Deprecated
     int bestMoveScore = -1;
+    @Deprecated
     int bestMoveLevel = Integer.MAX_VALUE;
 
     @Deprecated
@@ -63,6 +74,7 @@ public class RobotPlayer implements Player {
         }
     }
 
+    @Deprecated
     private void setStats(int level, Integer bestMove, int moveScore) {
         this.bestMove = bestMove;
         this.bestMoveScore = moveScore;
@@ -107,11 +119,15 @@ public class RobotPlayer implements Player {
         }
     }
 
+    private int randomNextMove(Board board) {
+        int[] emptyCells = board.getVacantCells();
+        Random random = new Random();
+        return emptyCells[random.nextInt(emptyCells.length)];
+    }
 
-    public Move findBestMove(Board board, int playerCode) {
+    public Move findBestMove(Board board, int playerCode, int depth) {
         List<Move> moves = new ArrayList<>();
         boolean isPlayerRobot = playerCode == this.symbol.getSymbolCode();
-
         for (int vacant : board.getVacantCells()) {
             Board copyBoard = board.copy();
             copyBoard.updateGrid(vacant, playerCode);
@@ -119,8 +135,11 @@ public class RobotPlayer implements Player {
                 int moveScore = isPlayerRobot ? 1 : -1;
                 moves.add(new Move(vacant, moveScore));
             } else if (copyBoard.hasGridSpace()) {
-                Move bestMove = findBestMove(copyBoard, getOtherPlayerCode(playerCode));
-                moves.add(new Move(vacant, bestMove.score));
+                Move bestMove = depth == 4 ? null : findBestMove(copyBoard, getOtherPlayerCode(playerCode), depth + 1);
+                if (bestMove != null)
+                    moves.add(new Move(vacant, bestMove.score));
+                else
+                    moves.add(new Move(vacant, 0));
             } else {
                 moves.add(new Move(vacant, 0));
             }
@@ -132,7 +151,7 @@ public class RobotPlayer implements Player {
             Collections.sort(moves);
         }
 
-        return moves.get(0);
+        return moves.isEmpty() ? null : moves.get(0);
     }
 
     @Override
