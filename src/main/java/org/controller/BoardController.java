@@ -45,7 +45,8 @@ public class BoardController {
 
     private void setupPlayer2(Scanner scanner, String gameType, Symbol player2Symbol) {
         if ("R".equals(gameType)) {
-            this.player2 = new RobotPlayer("Robot", player2Symbol);
+            int difficultyLevel = getDifficultyLevel(scanner);
+            this.player2 = new RobotPlayer("Robot", player2Symbol, difficultyLevel);
             System.out.println("Player 2 is " + player2);
         } else {
             System.out.println("Player 2, please enter your name:");
@@ -54,6 +55,19 @@ public class BoardController {
             System.out.println(player2Name + ", Your symbol is " + player2Symbol.toString());
             this.player2 = new CustomPlayer(player2Name, player2Symbol);
         }
+    }
+
+    private int getDifficultyLevel(Scanner scanner) {
+        String input = getPlayerInput(scanner, "Please choose difficulty level between 0 and 10, 10 being the highest");
+        int difficultyLevel;
+        try {
+            difficultyLevel = Integer.parseInt(input);
+            if (difficultyLevel < 0 || difficultyLevel > 10)
+                return getDifficultyLevel(scanner);
+        } catch (NumberFormatException e) {
+            return getDifficultyLevel(scanner);
+        }
+        return difficultyLevel;
     }
 
     private Symbol setupPlayer1(String player1Name, String player1SymbolString) {

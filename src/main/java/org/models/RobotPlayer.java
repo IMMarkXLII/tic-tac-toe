@@ -9,10 +9,12 @@ public class RobotPlayer implements Player {
     private String name;
     private Symbol symbol;
     private int lastMove;
+    private int difficultyLevel;
 
-    public RobotPlayer(String name, Symbol symbol) {
+    public RobotPlayer(String name, Symbol symbol, int difficultyLevel) {
         this.name = name;
         this.symbol = symbol;
+        this.difficultyLevel = difficultyLevel;
     }
 
     public int getLastMove() {

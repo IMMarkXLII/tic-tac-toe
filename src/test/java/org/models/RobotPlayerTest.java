@@ -17,7 +17,7 @@ public class RobotPlayerTest extends TestCase {
     public void testRobotPlayerUpgradeGrid() {
         BoardController boardController = new BoardController(3);
         try (InputStream inputStream = this.getClass().getClassLoader().getResourceAsStream("update-grid/upgrade-grid-1.txt");) {
-            Player player = new RobotPlayer("Tom Haverford", Symbol.X);
+            Player player = new RobotPlayer("Tom Haverford", Symbol.X, 0);
             Scanner scanner = new Scanner(inputStream);
             List<Integer> vacantCellsBefore = Arrays.stream(boardController.getBoard().getVacantCells()).boxed().collect(Collectors.toList());
             List<Integer> expectedVacantCells = Arrays.stream(boardController.getBoard().getVacantCells()).boxed().collect(Collectors.toList());
@@ -36,7 +36,7 @@ public class RobotPlayerTest extends TestCase {
 
     @Test
     public void testRobotPlayerCalculateOptimalMove() {
-        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
+        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O, 0);
 
         Board board = new Board(3, 3);
         board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 2;
@@ -48,7 +48,7 @@ public class RobotPlayerTest extends TestCase {
 
     @Test
     public void testRobotPlayerCalculateOptimalMove2() {
-        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
+        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O, 0);
 
         Board board = new Board(3, 3);
         board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 1;
@@ -60,7 +60,7 @@ public class RobotPlayerTest extends TestCase {
 
     @Test
     public void testRobotPlayerCalculateOptimalMove3() {
-        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
+        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O, 0);
 
         Board board = new Board(3, 3);
         board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 2;
@@ -72,7 +72,7 @@ public class RobotPlayerTest extends TestCase {
 
     @Test
     public void testRobotPlayerCalculateOptimalMove4() {
-        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
+        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O, 0);
 
         Board board = new Board(3, 3);
         board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 2;
@@ -84,7 +84,7 @@ public class RobotPlayerTest extends TestCase {
 
     @Test
     public void testRobotPlayerFindBestMove() {
-        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
+        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O, 0);
 
         Board board = new Board(3, 3);
         board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 2;
@@ -96,7 +96,7 @@ public class RobotPlayerTest extends TestCase {
 
     @Test
     public void testRobotPlayerFindBestMove2() {
-        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
+        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O, 0);
 
         Board board = new Board(3, 3);
         board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 1;
@@ -108,7 +108,7 @@ public class RobotPlayerTest extends TestCase {
 
     @Test
     public void testRobotPlayerFindBestMove3() {
-        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
+        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O, 0);
 
         Board board = new Board(3, 3);
         board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 2;
@@ -120,7 +120,7 @@ public class RobotPlayerTest extends TestCase {
 
     @Test
     public void testRobotPlayerFindBestMove4(){
-        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O);
+        RobotPlayer player = new RobotPlayer("Tom Haverford", Symbol.O, 0);
 
         Board board = new Board(3,3);
         board.getGrid()[0][0] = 1; board.getGrid()[0][1] = 2; board.getGrid()[0][2] = 2;
